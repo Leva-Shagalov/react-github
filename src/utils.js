@@ -11,6 +11,20 @@ const filterCallBacks = {
   archive: ({ is_archived }) => is_archived === true,
 };
 
+const sortedCallBacks = {
+  "SORT BY DEFAULT": undefined,
+  "SORT BY DATE up": (a, b) => {
+    const dateA = new Date(a.due_date);
+    const dateB = new Date(b.due_date);
+    return dateA - dateB;
+  },
+  "SORT BY DATE down": (a, b) => {
+    const dateA = new Date(a.due_date);
+    const dateB = new Date(b.due_date);
+    return dateB - dateA;
+  },
+};
+
 const filters = [
   {
     id: crypto.randomUUID(),
@@ -56,4 +70,4 @@ const filters = [
   },
 ];
 
-export { filterCallBacks, filters };
+export { filterCallBacks, sortedCallBacks, filters };

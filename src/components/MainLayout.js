@@ -6,11 +6,12 @@ import MainFilter from "./MainFilter/MainFilter";
 import MainControl from "./MainControl";
 import SvgSprite from "./SvgSprite";
 import { useState } from "react";
-import { filterCallBacks } from "../utils";
+import { filterCallBacks, sortedCallBacks } from "../utils";
 
 function MainLayout() {
   const { data, error } = useSWR("/tasks");
   const [filterType, setFilterType] = useState("all");
+  const [sortType, setSortType] = useState("SORT BY DEFAULT");
 
   if (error) {
     return <div>Ошибка доступа или сети</div>;
@@ -20,7 +21,6 @@ function MainLayout() {
   }
 
   const tasks = data.filter(filterCallBacks[filterType]);
-
   return (
     <>
       <SvgSprite />
@@ -30,8 +30,8 @@ function MainLayout() {
         <MainFilter setFilterType={setFilterType} />
 
         <section class="board container">
-          <SortList />
-          <BoardTasks tasks={tasks} />
+          <SortList setSortType={setSortType} />
+          <BoardTasks tasks={[...tasks].sort(sortedCallBacks[sortType])} />
           <LoadMore />
         </section>
       </main>
