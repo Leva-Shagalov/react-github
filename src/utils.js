@@ -70,4 +70,22 @@ const filters = [
   },
 ];
 
-export { filterCallBacks, sortedCallBacks, filters };
+const repeatDays = {
+  mo: false,
+  tu: false,
+  we: false,
+  th: false,
+  fr: false,
+  sa: false,
+  su: false,
+};
+
+const colors = {
+  black: false,
+  yellow: false,
+  blue: false,
+  green: false,
+  pink: false,
+};
+
+export { filterCallBacks, sortedCallBacks, filters, repeatDays, colors };
