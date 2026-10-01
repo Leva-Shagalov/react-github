@@ -70,16 +70,6 @@ const filters = [
   },
 ];
 
-const repeatDays = {
-  mo: false,
-  tu: false,
-  we: false,
-  th: false,
-  fr: false,
-  sa: false,
-  su: false,
-};
-
 const colors = {
   black: false,
   yellow: false,
@@ -88,4 +78,4 @@ const colors = {
   pink: false,
 };
 
-export { filterCallBacks, sortedCallBacks, filters, repeatDays, colors };
+export { filterCallBacks, sortedCallBacks, filters, colors };

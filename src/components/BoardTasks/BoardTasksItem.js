@@ -1,12 +1,28 @@
+import { useState } from "react";
+import BoardTasksForm from "./BoardTasksForm/BoardTasksForm";
+
 function BoardTasksItem({ task }) {
   const { id, color, description } = task;
+
+  const [isEdit, setIsEdit] = useState(false);
+  const handleEdit = () => {
+    setIsEdit(true);
+  };
+
+  if (isEdit) {
+    return <BoardTasksForm task={task} setIsEdit={setIsEdit} />;
+  }
 
   return (
     <article key={id} class={`card card--${color}`}>
       <div class="card__form">
         <div class="card__inner">
           <div class="card__control">
-            <button type="button" class="card__btn card__btn--edit">
+            <button
+              onClick={handleEdit}
+              type="button"
+              class="card__btn card__btn--edit"
+            >
               edit
             </button>
             <button type="button" class="card__btn card__btn--archive">

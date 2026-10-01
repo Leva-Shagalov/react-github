@@ -1,10 +1,17 @@
-import { colors, repeatDays } from "../../../utils";
+import { colors } from "../../../utils";
 import BoardTasksFormColor from "./BoardTasksFormColor";
 import BoardTasksFormRepeatDays from "./BoardTasksFormRepeatDays";
 
-function BoardTasksForm() {
+function BoardTasksForm({ task, setIsEdit }) {
+  const { id, color, description, repeating_days: repeatDays } = task;
+
+  const handleSave = (event) => {
+    event.preventDefault();
+    setIsEdit(false);
+  };
+
   return (
-    <article class="card card--edit card--yellow card--repeat">
+    <article class={`card card--edit card--${color} card--repeat`}>
       <form class="card__form" method="get">
         <div class="card__inner">
           <div class="card__color-bar">
@@ -20,8 +27,7 @@ function BoardTasksForm() {
                 placeholder="Start typing your text here..."
                 name="text"
               >
-                This is example of task edit. You can set date and chose
-                repeating days and color.
+                {description}
               </textarea>
             </label>
           </div>
@@ -70,7 +76,11 @@ function BoardTasksForm() {
           </div>
 
           <div class="card__status-btns">
-            <button class="card__save" type="submit">
+            <button
+              onClick={(event) => handleSave(event)}
+              class="card__save"
+              type="submit"
+            >
               save
             </button>
             <button class="card__delete" type="button">
