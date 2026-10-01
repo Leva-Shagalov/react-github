@@ -78,4 +78,21 @@ const colors = {
   pink: false,
 };
 
-export { filterCallBacks, sortedCallBacks, filters, colors };
+const DEFAULT_TASK = {
+  id: null,
+  color: "black",
+  description: "New task! Hello, i me Shava!",
+  due_date: new Date().toISOString(),
+  is_archived: false,
+  is_favorite: false,
+  repeating_days: {
+    mo: false,
+    tu: false,
+    we: false,
+    th: false,
+    fr: false,
+    sa: false,
+    su: false,
+  },
+};
+export { filterCallBacks, sortedCallBacks, filters, colors, DEFAULT_TASK };
