@@ -1,12 +1,34 @@
-import { colors } from "../../../utils";
+import useSWRMutation from "swr/mutation";
 import BoardTasksFormColor from "./BoardTasksFormColor";
 import BoardTasksFormRepeatDays from "./BoardTasksFormRepeatDays";
+import { useState } from "react";
+import { sendRequest } from "../../../api/api-config";
+import { useSWRConfig } from "swr";
+import { colors } from "../../../utils";
 
-function BoardTasksForm({ task, setIsEdit }) {
+const BoardTasksForm = ({ task, setIsEdit }) => {
   const { id, color, description, repeating_days: repeatDays } = task;
 
-  const handleSave = (event) => {
+  const [text, setText] = useState(description);
+  const { trigger, isMutating } = useSWRMutation(`tasks/${id}`, sendRequest);
+  const { mutate } = useSWRConfig("/tasks");
+
+  const handleText = (event) => {
+    setText(event.target.value);
+  };
+
+  const handleSave = async (event) => {
     event.preventDefault();
+
+    try {
+      const result = await trigger({
+        ...task,
+        description: text,
+      });
+
+      await mutate("/tasks");
+    } catch (e) {}
+
     setIsEdit(false);
   };
 
@@ -26,9 +48,9 @@ function BoardTasksForm({ task, setIsEdit }) {
                 class="card__text"
                 placeholder="Start typing your text here..."
                 name="text"
-              >
-                {description}
-              </textarea>
+                value={text}
+                onChange={handleText}
+              />
             </label>
           </div>
 
@@ -52,7 +74,8 @@ function BoardTasksForm({ task, setIsEdit }) {
                 </fieldset>
 
                 <button class="card__repeat-toggle" type="button">
-                  repeat:<span class="card__repeat-status">yes</span>
+                  repeat:
+                  <span class="card__repeat-status">yes</span>
                 </button>
 
                 <fieldset class="card__repeat-days">
@@ -76,11 +99,7 @@ function BoardTasksForm({ task, setIsEdit }) {
           </div>
 
           <div class="card__status-btns">
-            <button
-              onClick={(event) => handleSave(event)}
-              class="card__save"
-              type="submit"
-            >
+            <button class="card__save" type="submit" onClick={handleSave}>
               save
             </button>
             <button class="card__delete" type="button">
@@ -91,6 +110,6 @@ function BoardTasksForm({ task, setIsEdit }) {
       </form>
     </article>
   );
-}
+};
 
 export default BoardTasksForm;

@@ -1,6 +1,6 @@
-import { SWRConfig } from "swr";
-import apiConfig from "./api/api-config";
-import MainLayout from "./components/MainLayout";
+import { SWRConfig } from 'swr';
+import { apiConfig } from './api/api-config';
+import MainLayout from './components/MainLayout';
 
 function App() {
   return (
