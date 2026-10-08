@@ -12,7 +12,7 @@ function MainLayout() {
   const { data, error } = useSWR("/tasks");
   const [filterType, setFilterType] = useState("all");
   const [sortType, setSortType] = useState("SORT BY DEFAULT");
-  const [isAddingTask, setIsAddingTask] = useState(true);
+  const [isAddingTask, setIsAddingTask] = useState(false);
 
   if (error) {
     return <div>Ошибка доступа или сети</div>;
@@ -30,7 +30,7 @@ function MainLayout() {
       <SvgSprite />
 
       <main class="main">
-        <MainControl />
+        <MainControl setIsAddingTask={setIsAddingTask} />
         <MainFilter
           data={data}
           filterType={filterType}

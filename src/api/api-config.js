@@ -38,5 +38,15 @@ async function deleteTasks(url, { arg }) {
     body: JSON.stringify(arg),
   }).then((res) => res.json());
 }
+async function postTasks(url, { arg }) {
+  return fetch(`${BASE_URL}/${url}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: AUTHORIZATION,
+    },
+    body: JSON.stringify(arg),
+  }).then((res) => res.json());
+}
 
-export { apiConfig, putTasks, deleteTasks };
+export { apiConfig, putTasks, deleteTasks, postTasks };

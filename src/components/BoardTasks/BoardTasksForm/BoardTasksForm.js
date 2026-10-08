@@ -2,7 +2,7 @@ import useSWRMutation from "swr/mutation";
 import BoardTasksFormColor from "./BoardTasksFormColor";
 import BoardTasksFormRepeatDays from "./BoardTasksFormRepeatDays";
 import { useState } from "react";
-import { deleteTasks, putTasks } from "../../../api/api-config";
+import { postTasks, deleteTasks, putTasks } from "../../../api/api-config";
 import { useSWRConfig } from "swr";
 import { colors } from "../../../utils";
 
@@ -19,6 +19,7 @@ const BoardTasksForm = ({ task, setIsEdit }) => {
   );
 
   const { trigger: putTrigger } = useSWRMutation(`tasks/${id}`, putTasks);
+  const { trigger: postTrigger } = useSWRMutation(`tasks`, postTasks);
   const { trigger: deleteTrigger } = useSWRMutation(`tasks/${id}`, deleteTasks);
   const { mutate } = useSWRConfig("/tasks");
 
@@ -30,6 +31,7 @@ const BoardTasksForm = ({ task, setIsEdit }) => {
   };
   const handleClickDate = () => {
     setButtonDate(...[!buttonDate]);
+    setSelectedDate(null);
     setButtonRepeatDays(false);
   };
   const handleClickRepeatDays = () => {
@@ -40,16 +42,25 @@ const BoardTasksForm = ({ task, setIsEdit }) => {
 
   const handleSave = async (event) => {
     event.preventDefault();
+
+    const newTask = {
+      ...task,
+      color: selectedColor,
+      description: text,
+      due_date: selectedDate
+        ? `${selectedDate.slice(0, 10)}${new Date().toISOString().slice(10)}`
+        : null,
+      repeating_days: selectedRepeatDays,
+    };
+
     try {
-      const result = await putTrigger({
-        ...task,
-        color: selectedColor,
-        description: text,
-        due_date: selectedDate
-          ? `${selectedDate.slice(0, 10)}${new Date().toISOString().slice(10)}`
-          : null,
-        repeating_days: selectedRepeatDays,
-      });
+      if (id !== null) {
+        const result = await putTrigger(newTask);
+      } else {
+        delete newTask.id;
+        delete newTask.isEdit;
+        await postTrigger(newTask);
+      }
 
       await mutate("/tasks");
       setIsEdit(false);
@@ -58,7 +69,11 @@ const BoardTasksForm = ({ task, setIsEdit }) => {
   const handleDelete = async (event) => {
     event.preventDefault();
     try {
-      await deleteTrigger(task);
+      if (id !== null) {
+        await deleteTrigger(task);
+      } else {
+        // Скрыть добавление новой таски
+      }
     } catch (e) {
     } finally {
       await mutate("/tasks");
