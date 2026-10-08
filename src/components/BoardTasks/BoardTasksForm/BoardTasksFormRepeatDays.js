@@ -7,7 +7,7 @@ function BoardTasksFormRepeatDays({
   return (
     <>
       <input
-        class="visually-hidden card__repeat-day-input"
+        className="visually-hidden card__repeat-day-input"
         type="checkbox"
         id={`repeat-${day}-4`}
         name="repeat"
@@ -19,7 +19,7 @@ function BoardTasksFormRepeatDays({
           return setSelectedRepeatDays(copySelectedRepeatDays);
         }}
       />
-      <label class="card__repeat-day" for={`repeat-${day}-4`}>
+      <label className="card__repeat-day" for={`repeat-${day}-4`}>
         {day}
       </label>
     </>

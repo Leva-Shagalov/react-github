@@ -4,7 +4,7 @@ function SortListItem(props) {
   return (
     <a
       href="#"
-      class="board__sort-item"
+      className="board__sort-item"
       onClick={() => {
         onClick(name);
       }}

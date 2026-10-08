@@ -82,19 +82,19 @@ const BoardTasksForm = ({ task, setIsEdit, setIsAddingTask }) => {
   };
 
   return (
-    <article class={`card card--edit card--${selectedColor} card--repeat`}>
-      <form class="card__form" method="get">
-        <div class="card__inner">
-          <div class="card__color-bar">
-            <svg class="card__color-bar-wave" width="100%" height="10">
+    <article className={`card card--edit card--${selectedColor} card--repeat`}>
+      <form className="card__form" method="get">
+        <div className="card__inner">
+          <div className="card__color-bar">
+            <svg className="card__color-bar-wave" width="100%" height="10">
               <use xlinkHref="#wave"></use>
             </svg>
           </div>
 
-          <div class="card__textarea-wrap">
+          <div className="card__textarea-wrap">
             <label>
               <textarea
-                class="card__text"
+                className="card__text"
                 placeholder="Start typing your text here..."
                 name="text"
                 value={text}
@@ -103,25 +103,25 @@ const BoardTasksForm = ({ task, setIsEdit, setIsAddingTask }) => {
             </label>
           </div>
 
-          <div class="card__settings">
-            <div class="card__details">
-              <div class="card__dates">
+          <div className="card__settings">
+            <div className="card__details">
+              <div className="card__dates">
                 <button
-                  class="card__date-deadline-toggle"
+                  className="card__date-deadline-toggle"
                   type="button"
                   onClick={handleClickDate}
                 >
                   date:{" "}
-                  <span class="card__date-status">
+                  <span className="card__date-status">
                     {buttonDate ? "yes" : "no"}
                   </span>
                 </button>
 
                 {buttonDate ? (
-                  <fieldset class="card__date-deadline">
-                    <label class="card__input-deadline-wrap">
+                  <fieldset className="card__date-deadline">
+                    <label className="card__input-deadline-wrap">
                       <input
-                        class="card__date"
+                        className="card__date"
                         type="date"
                         placeholder=""
                         name="date"
@@ -135,19 +135,19 @@ const BoardTasksForm = ({ task, setIsEdit, setIsAddingTask }) => {
                 ) : undefined}
 
                 <button
-                  class="card__repeat-toggle"
+                  className="card__repeat-toggle"
                   type="button"
                   onClick={handleClickRepeatDays}
                 >
                   repeat:
-                  <span class="card__repeat-status">
+                  <span className="card__repeat-status">
                     {buttonRepeatDays ? "yes" : "no"}
                   </span>
                 </button>
 
                 {buttonRepeatDays ? (
-                  <fieldset class="card__repeat-days">
-                    <div class="card__repeat-days-inner">
+                  <fieldset className="card__repeat-days">
+                    <div className="card__repeat-days-inner">
                       {Object.entries(repeatDays).map(([day, checked]) => {
                         checked = selectedRepeatDays[day];
                         return (
@@ -165,9 +165,9 @@ const BoardTasksForm = ({ task, setIsEdit, setIsAddingTask }) => {
               </div>
             </div>
 
-            <div class="card__colors-inner">
-              <h3 class="card__colors-title">Color</h3>
-              <div class="card__colors-wrap">
+            <div className="card__colors-inner">
+              <h3 className="card__colors-title">Color</h3>
+              <div className="card__colors-wrap">
                 {Object.entries(colors).map(([color, checked]) => {
                   checked = color === selectedColor;
                   return (
@@ -182,11 +182,15 @@ const BoardTasksForm = ({ task, setIsEdit, setIsAddingTask }) => {
             </div>
           </div>
 
-          <div class="card__status-btns">
-            <button class="card__save" type="submit" onClick={handleSave}>
+          <div className="card__status-btns">
+            <button className="card__save" type="submit" onClick={handleSave}>
               save
             </button>
-            <button class="card__delete" type="button" onClick={handleDelete}>
+            <button
+              className="card__delete"
+              type="button"
+              onClick={handleDelete}
+            >
               delete
             </button>
           </div>

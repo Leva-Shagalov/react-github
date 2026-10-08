@@ -1,6 +1,6 @@
 function LoadMore() {
   return (
-    <button class="load-more" type="button">
+    <button className="load-more" type="button">
       load more
     </button>
   );

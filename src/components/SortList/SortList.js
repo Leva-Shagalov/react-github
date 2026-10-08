@@ -8,7 +8,7 @@ function SortList({ setSortType }) {
   ];
 
   return (
-    <div class="board__sort-list">
+    <div className="board__sort-list">
       {sortTypes.map((type) => {
         return <SortListItem key={type.id} {...type} onClick={setSortType} />;
       })}

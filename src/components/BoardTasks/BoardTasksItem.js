@@ -3,9 +3,10 @@ import BoardTasksForm from "./BoardTasksForm/BoardTasksForm";
 import useSWRMutation from "swr/mutation";
 import { useSWRConfig } from "swr";
 import { putTasks } from "../../api/api-config";
+import dayjs from "dayjs";
 
 function BoardTasksItem({ task, setIsAddingTask }) {
-  const { id, color, description, is_archived, is_favorite } = task;
+  const { id, color, description, is_archived, is_favorite, due_date } = task;
 
   const [isEdit, setIsEdit] = useState(task.isEdit);
   const handleEdit = () => {
@@ -49,51 +50,55 @@ function BoardTasksItem({ task, setIsAddingTask }) {
   };
 
   return (
-    <article key={id} class={`card card--${color}`}>
-      <div class="card__form">
-        <div class="card__inner">
-          <div class="card__control">
+    <article key={id} className={`card card--${color}`}>
+      <div className="card__form">
+        <div className="card__inner">
+          <div className="card__control">
             <button
               onClick={handleEdit}
               type="button"
-              class="card__btn card__btn--edit"
+              className="card__btn card__btn--edit"
             >
               edit
             </button>
             <button
               type="button"
-              class="card__btn card__btn--archive"
+              className="card__btn card__btn--archive"
               onClick={(event) => handleButton(event, "archived")}
             >
               archive
             </button>
             <button
               type="button"
-              class="card__btn card__btn--favorites"
+              className="card__btn card__btn--favorites"
               onClick={(event) => handleButton(event, "favorite")}
             >
               favorites
             </button>
           </div>
 
-          <div class="card__color-bar">
-            <svg class="card__color-bar-wave" width="100%" height="10">
+          <div className="card__color-bar">
+            <svg className="card__color-bar-wave" width="100%" height="10">
               <use xlinkHref="#wave"></use>
             </svg>
           </div>
 
-          <div class="card__textarea-wrap">
-            <p class="card__text">{description}</p>
+          <div className="card__textarea-wrap">
+            <p className="card__text">{description}</p>
           </div>
 
-          <div class="card__settings">
-            <div class="card__details">
-              <div class="card__dates">
-                <div class="card__date-deadline">
-                  <p class="card__input-deadline-wrap">
-                    <span class="card__date">23 September</span>
-                  </p>
-                </div>
+          <div className="card__settings">
+            <div className="card__details">
+              <div className="card__dates">
+                {due_date && (
+                  <div className="card__date-deadline">
+                    <p className="card__input-deadline-wrap">
+                      <span className="card__date">
+                        {dayjs(due_date).format("DD MMMM")}
+                      </span>
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           </div>

@@ -29,7 +29,7 @@ function MainLayout() {
     <>
       <SvgSprite />
 
-      <main class="main">
+      <main className="main">
         <MainControl setIsAddingTask={setIsAddingTask} />
         <MainFilter
           data={data}
@@ -37,7 +37,7 @@ function MainLayout() {
           setFilterType={setFilterType}
         />
 
-        <section class="board container">
+        <section className="board container">
           <SortList setSortType={setSortType} />
           <BoardTasks tasks={tasks} setIsAddingTask={setIsAddingTask} />
           <LoadMore />

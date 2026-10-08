@@ -4,7 +4,7 @@ import BoardTasksItem from "./BoardTasksItem";
 
 function BoardTasks({ tasks, setIsAddingTask }) {
   return (
-    <div class="board__tasks">
+    <div className="board__tasks">
       {/* <BoardTasksForm task={DEFAULT_TASK} /> */}
       {tasks.map((task) => (
         <BoardTasksItem

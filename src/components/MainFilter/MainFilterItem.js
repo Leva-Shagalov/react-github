@@ -6,7 +6,7 @@ function MainFilterItem(props) {
       <input
         type="radio"
         id={`filter__${filterType}`}
-        class="filter__input visually-hidden"
+        className="filter__input visually-hidden"
         name="filter"
         {...(disabled && { disabled: "disabled" })}
         {...(checked && { checked: "checked" })}
@@ -14,8 +14,9 @@ function MainFilterItem(props) {
           onChange(filterType);
         }}
       />
-      <label for={`filter__${filterType}`} class="filter__label">
-        {filterType} <span class={`filter__${filterType}-count`}>{count}</span>
+      <label htmlFor={`filter__${filterType}`} className="filter__label">
+        {filterType}{" "}
+        <span className={`filter__${filterType}-count`}>{count}</span>
       </label>
     </>
   );
