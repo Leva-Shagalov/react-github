@@ -6,12 +6,13 @@ import MainFilter from "./MainFilter/MainFilter";
 import MainControl from "./MainControl";
 import SvgSprite from "./SvgSprite";
 import { useState } from "react";
-import { filterCallBacks, sortedCallBacks } from "../utils";
+import { DEFAULT_TASK, filterCallBacks, sortedCallBacks } from "../utils";
 
 function MainLayout() {
   const { data, error } = useSWR("/tasks");
   const [filterType, setFilterType] = useState("all");
   const [sortType, setSortType] = useState("SORT BY DEFAULT");
+  const [isAddingTask, setIsAddingTask] = useState(true);
 
   if (error) {
     return <div>Ошибка доступа или сети</div>;
@@ -20,7 +21,7 @@ function MainLayout() {
     return <div>Загрузка...</div>;
   }
 
-  const tasks = [...data]
+  const tasks = [...(isAddingTask ? [DEFAULT_TASK] : []), ...data]
     .filter(filterCallBacks[filterType])
     .sort(sortedCallBacks[sortType]);
 

@@ -29,11 +29,11 @@ const BoardTasksForm = ({ task, setIsEdit }) => {
     setSelectedDate(event.target.value);
   };
   const handleClickDate = () => {
-    setButtonDate(true);
+    setButtonDate(...[!buttonDate]);
     setButtonRepeatDays(false);
   };
   const handleClickRepeatDays = () => {
-    setButtonRepeatDays(true);
+    setButtonRepeatDays(...[!buttonRepeatDays]);
     setButtonDate(false);
     setSelectedDate(null);
   };
@@ -62,7 +62,6 @@ const BoardTasksForm = ({ task, setIsEdit }) => {
     } catch (e) {
     } finally {
       await mutate("/tasks");
-      setIsEdit(false);
     }
   };
 

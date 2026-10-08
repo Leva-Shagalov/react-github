@@ -1,5 +1,5 @@
 const BASE_URL = "https://22.objects.htmlacademy.pro/task-manager";
-const AUTHORIZATION = "Basic 1234";
+const AUTHORIZATION = "Basic 12345";
 // hS2sfS44wcl1sa2j старая авторизация
 const apiConfig = async (pathname) => {
   const response = await fetch(`${BASE_URL}${pathname}`, {

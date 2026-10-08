@@ -7,7 +7,7 @@ import { putTasks } from "../../api/api-config";
 function BoardTasksItem({ task }) {
   const { id, color, description, is_archived, is_favorite } = task;
 
-  const [isEdit, setIsEdit] = useState(false);
+  const [isEdit, setIsEdit] = useState(task.isEdit);
   const handleEdit = () => {
     setIsEdit(true);
   };

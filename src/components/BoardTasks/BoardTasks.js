@@ -7,7 +7,7 @@ function BoardTasks({ tasks }) {
     <div class="board__tasks">
       {/* <BoardTasksForm task={DEFAULT_TASK} /> */}
       {tasks.map((task) => (
-        <BoardTasksItem task={task} />
+        <BoardTasksItem key={task.id} task={task} />
       ))}
     </div>
   );
