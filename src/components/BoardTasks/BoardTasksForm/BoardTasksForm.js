@@ -7,23 +7,47 @@ import { useSWRConfig } from "swr";
 import { colors } from "../../../utils";
 
 const BoardTasksForm = ({ task, setIsEdit }) => {
-  const { id, color, description, repeating_days: repeatDays } = task;
+  const { id, color, description, repeating_days: repeatDays, due_date } = task;
 
+  const [selectedColor, setSelectedColor] = useState(color);
   const [text, setText] = useState(description);
-  const { trigger, isMutating } = useSWRMutation(`tasks/${id}`, sendRequest);
+  const [selectedDate, setSelectedDate] = useState(due_date);
+  const [selectedRepeatDays, setSelectedRepeatDays] = useState(repeatDays);
+  const [buttonDate, setButtonDate] = useState(Boolean(due_date));
+  const [buttonRepeatDays, setButtonRepeatDays] = useState(
+    Object.values(repeatDays).some((bool) => bool === true),
+  );
+
+  const { trigger } = useSWRMutation(`tasks/${id}`, sendRequest);
   const { mutate } = useSWRConfig("/tasks");
 
   const handleText = (event) => {
     setText(event.target.value);
   };
+  const handleChangeDate = (event) => {
+    setSelectedDate(event.target.value);
+  };
+  const handleClickDate = () => {
+    setButtonDate(true);
+    setButtonRepeatDays(false);
+  };
+  const handleClickRepeatDays = () => {
+    setButtonRepeatDays(true);
+    setButtonDate(false);
+    setSelectedDate(null);
+  };
 
   const handleSave = async (event) => {
     event.preventDefault();
-
     try {
       const result = await trigger({
         ...task,
+        color: selectedColor,
         description: text,
+        due_date: selectedDate
+          ? `${selectedDate.slice(0, 10)}${new Date().toISOString().slice(10)}`
+          : null,
+        repeating_days: selectedRepeatDays,
       });
 
       await mutate("/tasks");
@@ -31,9 +55,8 @@ const BoardTasksForm = ({ task, setIsEdit }) => {
 
     setIsEdit(false);
   };
-
   return (
-    <article class={`card card--edit card--${color} card--repeat`}>
+    <article class={`card card--edit card--${selectedColor} card--repeat`}>
       <form class="card__form" method="get">
         <div class="card__inner">
           <div class="card__color-bar">
@@ -57,43 +80,78 @@ const BoardTasksForm = ({ task, setIsEdit }) => {
           <div class="card__settings">
             <div class="card__details">
               <div class="card__dates">
-                <button class="card__date-deadline-toggle" type="button">
-                  date: <span class="card__date-status">yes</span>
+                <button
+                  class="card__date-deadline-toggle"
+                  type="button"
+                  onClick={handleClickDate}
+                >
+                  date:{" "}
+                  <span class="card__date-status">
+                    {buttonDate ? "yes" : "no"}
+                  </span>
                 </button>
 
-                <fieldset class="card__date-deadline">
-                  <label class="card__input-deadline-wrap">
-                    <input
-                      class="card__date"
-                      type="text"
-                      placeholder=""
-                      name="date"
-                      value="23 September 16:15"
-                    />
-                  </label>
-                </fieldset>
+                {buttonDate ? (
+                  <fieldset class="card__date-deadline">
+                    <label class="card__input-deadline-wrap">
+                      <input
+                        class="card__date"
+                        type="date"
+                        placeholder=""
+                        name="date"
+                        value={
+                          selectedDate ? selectedDate.slice(0, 10) : undefined
+                        }
+                        onChange={handleChangeDate}
+                      />
+                    </label>
+                  </fieldset>
+                ) : undefined}
 
-                <button class="card__repeat-toggle" type="button">
+                <button
+                  class="card__repeat-toggle"
+                  type="button"
+                  onClick={handleClickRepeatDays}
+                >
                   repeat:
-                  <span class="card__repeat-status">yes</span>
+                  <span class="card__repeat-status">
+                    {buttonRepeatDays ? "yes" : "no"}
+                  </span>
                 </button>
 
-                <fieldset class="card__repeat-days">
-                  <div class="card__repeat-days-inner">
-                    {Object.entries(repeatDays).map(([day, checked]) => (
-                      <BoardTasksFormRepeatDays day={day} checked={checked} />
-                    ))}
-                  </div>
-                </fieldset>
+                {buttonRepeatDays ? (
+                  <fieldset class="card__repeat-days">
+                    <div class="card__repeat-days-inner">
+                      {Object.entries(repeatDays).map(([day, checked]) => {
+                        checked = selectedRepeatDays[day];
+                        return (
+                          <BoardTasksFormRepeatDays
+                            day={day}
+                            checked={checked}
+                            selectedRepeatDays={selectedRepeatDays}
+                            setSelectedRepeatDays={setSelectedRepeatDays}
+                          />
+                        );
+                      })}
+                    </div>
+                  </fieldset>
+                ) : undefined}
               </div>
             </div>
 
             <div class="card__colors-inner">
               <h3 class="card__colors-title">Color</h3>
               <div class="card__colors-wrap">
-                {Object.entries(colors).map(([color, checked]) => (
-                  <BoardTasksFormColor color={color} checked={checked} />
-                ))}
+                {Object.entries(colors).map(([color, checked]) => {
+                  checked = color === selectedColor;
+                  return (
+                    <BoardTasksFormColor
+                      color={color}
+                      checked={checked}
+                      setSelectedColor={setSelectedColor}
+                    />
+                  );
+                })}
               </div>
             </div>
           </div>

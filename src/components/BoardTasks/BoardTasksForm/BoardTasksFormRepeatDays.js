@@ -1,4 +1,9 @@
-function BoardTasksFormRepeatDays({ day, checked }) {
+function BoardTasksFormRepeatDays({
+  day,
+  checked,
+  selectedRepeatDays,
+  setSelectedRepeatDays,
+}) {
   return (
     <>
       <input
@@ -8,6 +13,11 @@ function BoardTasksFormRepeatDays({ day, checked }) {
         name="repeat"
         value={day}
         {...(checked && { checked: "checked" })}
+        onChange={() => {
+          let copySelectedRepeatDays = Object.assign({}, selectedRepeatDays);
+          copySelectedRepeatDays[day] = !checked;
+          return setSelectedRepeatDays(copySelectedRepeatDays);
+        }}
       />
       <label class="card__repeat-day" for={`repeat-${day}-4`}>
         {day}

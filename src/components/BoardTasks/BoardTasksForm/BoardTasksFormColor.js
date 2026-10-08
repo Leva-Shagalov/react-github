@@ -1,4 +1,4 @@
-function BoardTasksFormColor({ color, checked }) {
+function BoardTasksFormColor({ color, checked, setSelectedColor }) {
   const id = crypto.randomUUID();
 
   return (
@@ -10,6 +10,7 @@ function BoardTasksFormColor({ color, checked }) {
         name="color"
         value={color}
         {...(checked && { checked: "checked" })}
+        onChange={() => setSelectedColor(color)}
       />
       <label
         for={`color-${color}-${id}`}
