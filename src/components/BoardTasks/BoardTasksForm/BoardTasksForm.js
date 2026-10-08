@@ -6,7 +6,7 @@ import { postTasks, deleteTasks, putTasks } from "../../../api/api-config";
 import { useSWRConfig } from "swr";
 import { colors } from "../../../utils";
 
-const BoardTasksForm = ({ task, setIsEdit }) => {
+const BoardTasksForm = ({ task, setIsEdit, setIsAddingTask }) => {
   const { id, color, description, repeating_days: repeatDays, due_date } = task;
 
   const [selectedColor, setSelectedColor] = useState(color);
@@ -60,6 +60,7 @@ const BoardTasksForm = ({ task, setIsEdit }) => {
         delete newTask.id;
         delete newTask.isEdit;
         await postTrigger(newTask);
+        setIsAddingTask(false);
       }
 
       await mutate("/tasks");

@@ -4,7 +4,7 @@ import useSWRMutation from "swr/mutation";
 import { useSWRConfig } from "swr";
 import { putTasks } from "../../api/api-config";
 
-function BoardTasksItem({ task }) {
+function BoardTasksItem({ task, setIsAddingTask }) {
   const { id, color, description, is_archived, is_favorite } = task;
 
   const [isEdit, setIsEdit] = useState(task.isEdit);
@@ -16,7 +16,13 @@ function BoardTasksItem({ task }) {
   const { mutate } = useSWRConfig("/tasks");
 
   if (isEdit) {
-    return <BoardTasksForm task={task} setIsEdit={setIsEdit} />;
+    return (
+      <BoardTasksForm
+        task={task}
+        setIsEdit={setIsEdit}
+        setIsAddingTask={setIsAddingTask}
+      />
+    );
   }
 
   const handleButton = async (event, arg) => {

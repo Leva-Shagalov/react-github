@@ -39,7 +39,7 @@ function MainLayout() {
 
         <section class="board container">
           <SortList setSortType={setSortType} />
-          <BoardTasks tasks={tasks} />
+          <BoardTasks tasks={tasks} setIsAddingTask={setIsAddingTask} />
           <LoadMore />
         </section>
       </main>
