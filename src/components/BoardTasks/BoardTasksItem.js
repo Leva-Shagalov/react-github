@@ -2,7 +2,7 @@ import { useState } from "react";
 import BoardTasksForm from "./BoardTasksForm/BoardTasksForm";
 import useSWRMutation from "swr/mutation";
 import { useSWRConfig } from "swr";
-import { sendRequest } from "../../api/api-config";
+import { putTasks } from "../../api/api-config";
 
 function BoardTasksItem({ task }) {
   const { id, color, description, is_archived, is_favorite } = task;
@@ -12,7 +12,7 @@ function BoardTasksItem({ task }) {
     setIsEdit(true);
   };
 
-  const { trigger } = useSWRMutation(`tasks/${id}`, sendRequest);
+  const { trigger } = useSWRMutation(`tasks/${id}`, putTasks);
   const { mutate } = useSWRConfig("/tasks");
 
   if (isEdit) {

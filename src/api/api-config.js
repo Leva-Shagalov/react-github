@@ -1,6 +1,6 @@
 const BASE_URL = "https://22.objects.htmlacademy.pro/task-manager";
-const AUTHORIZATION = "Basic hS2sfS44wcl1sa2j";
-
+const AUTHORIZATION = "Basic 1234";
+// hS2sfS44wcl1sa2j старая авторизация
 const apiConfig = async (pathname) => {
   const response = await fetch(`${BASE_URL}${pathname}`, {
     headers: {
@@ -18,7 +18,7 @@ const apiConfig = async (pathname) => {
   return response.json();
 };
 
-async function sendRequest(url, { arg }) {
+async function putTasks(url, { arg }) {
   return fetch(`${BASE_URL}/${url}`, {
     method: "PUT",
     headers: {
@@ -28,5 +28,15 @@ async function sendRequest(url, { arg }) {
     body: JSON.stringify(arg),
   }).then((res) => res.json());
 }
+async function deleteTasks(url, { arg }) {
+  return fetch(`${BASE_URL}/${url}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: AUTHORIZATION,
+    },
+    body: JSON.stringify(arg),
+  }).then((res) => res.json());
+}
 
-export { apiConfig, sendRequest };
+export { apiConfig, putTasks, deleteTasks };

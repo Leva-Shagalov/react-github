@@ -2,7 +2,7 @@ import useSWRMutation from "swr/mutation";
 import BoardTasksFormColor from "./BoardTasksFormColor";
 import BoardTasksFormRepeatDays from "./BoardTasksFormRepeatDays";
 import { useState } from "react";
-import { sendRequest } from "../../../api/api-config";
+import { deleteTasks, putTasks } from "../../../api/api-config";
 import { useSWRConfig } from "swr";
 import { colors } from "../../../utils";
 
@@ -18,7 +18,8 @@ const BoardTasksForm = ({ task, setIsEdit }) => {
     Object.values(repeatDays).some((bool) => bool === true),
   );
 
-  const { trigger } = useSWRMutation(`tasks/${id}`, sendRequest);
+  const { trigger: putTrigger } = useSWRMutation(`tasks/${id}`, putTasks);
+  const { trigger: deleteTrigger } = useSWRMutation(`tasks/${id}`, deleteTasks);
   const { mutate } = useSWRConfig("/tasks");
 
   const handleText = (event) => {
@@ -40,7 +41,7 @@ const BoardTasksForm = ({ task, setIsEdit }) => {
   const handleSave = async (event) => {
     event.preventDefault();
     try {
-      const result = await trigger({
+      const result = await putTrigger({
         ...task,
         color: selectedColor,
         description: text,
@@ -51,10 +52,20 @@ const BoardTasksForm = ({ task, setIsEdit }) => {
       });
 
       await mutate("/tasks");
+      setIsEdit(false);
     } catch (e) {}
-
-    setIsEdit(false);
   };
+  const handleDelete = async (event) => {
+    event.preventDefault();
+    try {
+      await deleteTrigger(task);
+    } catch (e) {
+    } finally {
+      await mutate("/tasks");
+      setIsEdit(false);
+    }
+  };
+
   return (
     <article class={`card card--edit card--${selectedColor} card--repeat`}>
       <form class="card__form" method="get">
@@ -160,7 +171,7 @@ const BoardTasksForm = ({ task, setIsEdit }) => {
             <button class="card__save" type="submit" onClick={handleSave}>
               save
             </button>
-            <button class="card__delete" type="button">
+            <button class="card__delete" type="button" onClick={handleDelete}>
               delete
             </button>
           </div>
